@@ -1,0 +1,64 @@
+{
+    // =========================================================================
+    // PYTHON EXTENSION SETTINGS - PREVENT RUNAWAY VIRTUAL ENVIRONMENT SCANNING
+    // =========================================================================
+    // These settings disable the auto-discovery features that can cause
+    // VS Code's Python extension to run for hours, consuming CPU and overheating laptops.
+    // Disable automatic virtual environment discovery (THE MAIN FIX)
+    // This prevents the extension from scanning directories for .venv folders
+    "python.venvFolders": [],
+    // Disable the newer "Python Environments" extension for this workspace
+    // Falls back to the stable, classic Python extension behavior
+    "python.useEnvironmentsExtension": false,
+    // Disable conda environment discovery
+    "python.condaPath": "",
+    // Disable poetry virtual environment discovery
+    "python.poetryPath": "",
+    // Disable automatic environment activation in terminals
+    "python.terminal.activateEnvironment": false,
+    "python.terminal.activateEnvInCurrentTerminal": false,
+    // Reduce extension activity
+    "python.analysis.autoSearchPaths": false,
+    "python.analysis.indexing": false,
+    // Disable IntelliCode ML features (can cause high CPU)
+    "python.analysis.inlayHints.functionReturnTypes": false,
+    "python.analysis.inlayHints.variableTypes": false,
+    // =========================================================================
+    // GENERAL WORKSPACE SETTINGS
+    // =========================================================================
+    // Prevent VS Code from auto-opening a terminal on workspace launch
+    "terminal.integrated.launchOnWorkspaceOpen": false,
+    // Prevent VS Code from restoring old terminal sessions across reloads
+    "terminal.integrated.enablePersistentSessions": false,
+    // Set Git Bash as the default terminal (prevents PowerShell from opening)
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    // Exclude .venv from file watching (reduces I/O)
+    "files.watcherExclude": {
+        "**/.venv/**": true,
+        "**/node_modules/**": true,
+        "**/__pycache__/**": true,
+        "**/.git/objects/**": true
+    },
+    // Exclude from search
+    "search.exclude": {
+        "**/.venv/**": true,
+        "**/__pycache__/**": true,
+        "**/node_modules/**": true
+    },
+    // Exclude from file explorer (optional - uncomment if desired)
+    // "files.exclude": {
+    //     "**/__pycache__": true,
+    //     "**/*.pyc": true
+    // },
+    // =========================================================================
+    // EDITOR SETTINGS
+    // =========================================================================
+    "editor.formatOnSave": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    }
+}

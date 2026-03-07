@@ -1,0 +1,240 @@
+<mxfile host="app.diagrams.net" modified="2026-02-27" agent="ModelFusion" version="24.0">
+  <diagram id="model-fusion-architecture" name="Model Fusion Playground">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="1">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ========== TITLE ========== -->
+        <mxCell id="title" value="&lt;b&gt;Model Fusion Playground — Architecture &amp; Request Flow&lt;/b&gt;" style="text;html=1;fontSize=22;fontColor=#FFFFFF;fillColor=#1a1a2e;strokeColor=none;rounded=1;arcSize=10;spacingLeft=10;spacingRight=10;align=center;" vertex="1" parent="1">
+          <mxGeometry x="350" y="15" width="620" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== USER ========== -->
+        <mxCell id="user" value="&lt;b&gt;User&lt;/b&gt;&lt;br&gt;(Browser)" style="shape=actor;whiteSpace=wrap;html=1;fontSize=13;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="30" y="260" width="80" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== STREAMLIT UI ========== -->
+        <mxCell id="ui_group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;dashPattern=5 5;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="160" y="170" width="200" height="270" as="geometry"/>
+        </mxCell>
+        <mxCell id="ui_title" value="&lt;b&gt;Streamlit UI&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;(streamlit_app.py)&lt;/font&gt;&lt;br&gt;Port 8501" style="text;html=1;fontSize=12;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="175" y="175" width="170" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="ui_sidebar" value="Sidebar&lt;br&gt;• Mode: Search / Debate&lt;br&gt;• Agent Toggles&lt;br&gt;• Debate Rounds" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFF9C4;strokeColor=#F9A825;fontColor=#333;" vertex="1" parent="1">
+          <mxGeometry x="175" y="230" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ui_main" value="Main Panel&lt;br&gt;• Prompt Input&lt;br&gt;• Color-coded Model Cards&lt;br&gt;• Aggregated Summary" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFF9C4;strokeColor=#F9A825;fontColor=#333;" vertex="1" parent="1">
+          <mxGeometry x="175" y="310" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ui_state" value="Session State&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;conversation_id&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFF9C4;strokeColor=#F9A825;fontColor=#555;" vertex="1" parent="1">
+          <mxGeometry x="195" y="395" width="130" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- User → UI -->
+        <mxCell id="e_user_ui" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;strokeWidth=2;fontColor=#666;fontSize=10;" edge="1" source="user" target="ui_group" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_user_ui_label" value="HTTP :8501" style="edgeLabel;html=1;fontSize=10;fontColor=#999;" connectable="0" vertex="1" parent="e_user_ui">
+          <mxGeometry x="-0.1" relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== FASTAPI BACKEND (big container) ========== -->
+        <mxCell id="backend" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;dashPattern=5 5;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="430" y="100" width="410" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="be_title" value="&lt;b&gt;FastAPI Backend&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;(Uvicorn — Port 8000)&lt;/font&gt;" style="text;html=1;fontSize=13;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="530" y="105" width="210" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- API Routes -->
+        <mxCell id="routes" value="&lt;b&gt;ApiRoutes&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;routes.py&lt;/font&gt;&lt;br&gt;POST /supervisor/query&lt;br&gt;GET /health" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="535" y="155" width="200" height="65" as="geometry"/>
+        </mxCell>
+
+        <!-- Supervisor -->
+        <mxCell id="supervisor" value="&lt;b&gt;Supervisor&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;supervisor_agent.py&lt;/font&gt;&lt;br&gt;• Fan-out to agents&lt;br&gt;• Fan-in results&lt;br&gt;• Orchestrate debate rounds" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="520" y="260" width="230" height="85" as="geometry"/>
+        </mxCell>
+
+        <!-- State Store -->
+        <mxCell id="state_store" value="&lt;b&gt;InMemoryAgentStateStore&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;Conversation History&lt;br&gt;(per agent × conversation_id)&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fontSize=10;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="445" y="385" width="160" height="75" as="geometry"/>
+        </mxCell>
+
+        <!-- Aggregation Tool -->
+        <mxCell id="agg_tool" value="&lt;b&gt;AggregationTool&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;aggregation_tool.py&lt;/font&gt;&lt;br&gt;Synthesize via GPT" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="445" y="490" width="155" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- Prompt Loader -->
+        <mxCell id="prompt_loader" value="&lt;b&gt;PromptLoader&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;Jinja2 Templates&lt;br&gt;conversation / debate / aggregate&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e6e6e6;strokeColor=#999999;" vertex="1" parent="1">
+          <mxGeometry x="625" y="490" width="190" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges inside backend -->
+        <mxCell id="e_routes_sup" style="rounded=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" source="routes" target="supervisor" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_state" style="rounded=1;strokeColor=#b85450;strokeWidth=1.5;dashed=1;" edge="1" source="supervisor" target="state_store" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_state_label" value="get/save state" style="edgeLabel;html=1;fontSize=9;fontColor=#999;" connectable="0" vertex="1" parent="e_sup_state">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_agg" style="rounded=1;strokeColor=#d6b656;strokeWidth=1.5;" edge="1" source="supervisor" target="agg_tool" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_agg_label" value="aggregate" style="edgeLabel;html=1;fontSize=9;fontColor=#999;" connectable="0" vertex="1" parent="e_sup_agg">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_prompt" style="rounded=1;strokeColor=#999;strokeWidth=1;dashed=1;" edge="1" source="supervisor" target="prompt_loader" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_agg_prompt" style="rounded=1;strokeColor=#999;strokeWidth=1;dashed=1;" edge="1" source="agg_tool" target="prompt_loader" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- UI → Routes -->
+        <mxCell id="e_ui_routes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#82b366;strokeWidth=2.5;fontColor=#666;fontSize=10;" edge="1" source="ui_group" target="routes" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ui_routes_label" value="POST /supervisor/query&lt;br&gt;(HTTP JSON)" style="edgeLabel;html=1;fontSize=10;fontColor=#82b366;" connectable="0" vertex="1" parent="e_ui_routes">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== LLM AGENTS (fan-out targets) ========== -->
+        <mxCell id="agents_group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#CCCCCC;dashed=1;dashPattern=5 5;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="920" y="100" width="270" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="agents_title" value="&lt;b&gt;Model Identity Agents&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;IAgent interface → async respond()&lt;/font&gt;" style="text;html=1;fontSize=12;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="935" y="105" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- GPT Agent -->
+        <mxCell id="agent_gpt" value="&lt;b&gt;GPTAgent&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;gpt_agent.py&lt;/font&gt;&lt;br&gt;Azure OpenAI + Azure AD" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#C8E6C9;strokeColor=#10a37f;fontColor=#1B5E20;" vertex="1" parent="1">
+          <mxGeometry x="945" y="155" width="220" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Grok Agent -->
+        <mxCell id="agent_grok" value="&lt;b&gt;GrokAgent&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;grok_agent.py&lt;/font&gt;&lt;br&gt;xAI via Azure OpenAI + Azure AD" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#EEEEEE;strokeColor=#757575;fontColor=#333;" vertex="1" parent="1">
+          <mxGeometry x="945" y="220" width="220" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- DeepSeek Agent -->
+        <mxCell id="agent_ds" value="&lt;b&gt;DeepSeekAgent&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;deepseek_agent.py&lt;/font&gt;&lt;br&gt;DeepSeek via Azure OpenAI + Azure AD" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#BBDEFB;strokeColor=#4B8BF5;fontColor=#0D47A1;" vertex="1" parent="1">
+          <mxGeometry x="945" y="285" width="220" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Gemini Agent -->
+        <mxCell id="agent_gem" value="&lt;b&gt;GeminiAgent&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;gemini_agent.py&lt;/font&gt;&lt;br&gt;Google GenAI API + API Key" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#E1BEE7;strokeColor=#8E44AD;fontColor=#4A148C;" vertex="1" parent="1">
+          <mxGeometry x="945" y="350" width="220" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Anthropic Agent -->
+        <mxCell id="agent_ant" value="&lt;b&gt;AnthropicAgent&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;anthropic_agent.py&lt;/font&gt;&lt;br&gt;Anthropic API + API Key" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#FFE0B2;strokeColor=#E67E22;fontColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="945" y="415" width="220" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Fan-out arrows: Supervisor → each agent -->
+        <mxCell id="e_sup_gpt" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#10a37f;strokeWidth=2;" edge="1" source="supervisor" target="agent_gpt" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_grok" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#757575;strokeWidth=2;" edge="1" source="supervisor" target="agent_grok" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_ds" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#4B8BF5;strokeWidth=2;" edge="1" source="supervisor" target="agent_ds" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_gem" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#8E44AD;strokeWidth=2;" edge="1" source="supervisor" target="agent_gem" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_sup_ant" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#E67E22;strokeWidth=2;" edge="1" source="supervisor" target="agent_ant" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Fan-out label -->
+        <mxCell id="fanout_label" value="&lt;b&gt;asyncio.gather()&lt;/b&gt;&lt;br&gt;Parallel Fan-out" style="text;html=1;fontSize=11;fillColor=none;strokeColor=none;fontColor=#6c8ebf;align=center;" vertex="1" parent="1">
+          <mxGeometry x="860" y="265" width="90" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== EXTERNAL CLOUD PROVIDERS ========== -->
+        <mxCell id="cloud_group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#263238;strokeColor=#546E7A;dashed=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="100" width="200" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="cloud_title" value="&lt;font color=&quot;#ECEFF1&quot;&gt;&lt;b&gt;Cloud LLM Providers&lt;/b&gt;&lt;/font&gt;" style="text;html=1;fontSize=12;fillColor=none;strokeColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="110" width="160" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="azure_oai" value="&lt;font color=&quot;#ECEFF1&quot;&gt;&lt;b&gt;Azure OpenAI&lt;/b&gt;&lt;br&gt;GPT · Grok · DeepSeek&lt;br&gt;&lt;font color=&quot;#90CAF9&quot;&gt;Azure AD Auth&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#37474F;strokeColor=#78909C;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="190" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="google_api" value="&lt;font color=&quot;#ECEFF1&quot;&gt;&lt;b&gt;Google GenAI&lt;/b&gt;&lt;br&gt;Gemini&lt;br&gt;&lt;font color=&quot;#CE93D8&quot;&gt;API Key Auth&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#37474F;strokeColor=#78909C;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="310" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="anthro_api" value="&lt;font color=&quot;#ECEFF1&quot;&gt;&lt;b&gt;Anthropic API&lt;/b&gt;&lt;br&gt;Claude&lt;br&gt;&lt;font color=&quot;#FFCC80&quot;&gt;API Key Auth&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#37474F;strokeColor=#78909C;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="415" width="160" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- Agent → Cloud arrows -->
+        <mxCell id="e_gpt_azure" style="rounded=1;strokeColor=#10a37f;strokeWidth=1.5;" edge="1" source="agent_gpt" target="azure_oai" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_grok_azure" style="rounded=1;strokeColor=#757575;strokeWidth=1.5;" edge="1" source="agent_grok" target="azure_oai" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ds_azure" style="rounded=1;strokeColor=#4B8BF5;strokeWidth=1.5;" edge="1" source="agent_ds" target="azure_oai" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_gem_google" style="rounded=1;strokeColor=#8E44AD;strokeWidth=1.5;" edge="1" source="agent_gem" target="google_api" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_ant_anthro" style="rounded=1;strokeColor=#E67E22;strokeWidth=1.5;" edge="1" source="agent_ant" target="anthro_api" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== OBSERVABILITY (bottom strip) ========== -->
+        <mxCell id="otel_group" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#E91E63;dashed=1;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="430" y="630" width="680" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="otel_label" value="&lt;b&gt;Observability Layer&lt;/b&gt;  —  OpenTelemetry SDK  →  Azure Monitor Exporter  →  &lt;b&gt;Azure Application Insights&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;telemetry_service.py  ·  Traces (spans) + Metrics  ·  FastAPI auto-instrumentation  ·  HTTPX instrumentation&lt;/font&gt;" style="text;html=1;fontSize=11;fillColor=none;strokeColor=none;align=center;fontColor=#880E4F;" vertex="1" parent="1">
+          <mxGeometry x="450" y="638" width="640" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- Dashed lines from backend to observability -->
+        <mxCell id="e_be_otel" style="rounded=1;strokeColor=#E91E63;strokeWidth=1;dashed=1;" edge="1" source="backend" target="otel_group" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_agents_otel" style="rounded=1;strokeColor=#E91E63;strokeWidth=1;dashed=1;" edge="1" source="agents_group" target="otel_group" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== FLOW LEGEND ========== -->
+        <mxCell id="legend" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCC;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="630" width="350" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend_title" value="&lt;b&gt;Request Flow (Search Mode)&lt;/b&gt;" style="text;html=1;fontSize=12;fillColor=none;strokeColor=none;fontColor=#333;align=left;" vertex="1" parent="1">
+          <mxGeometry x="45" y="635" width="300" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend_text" value="&lt;font color=&quot;#555&quot;&gt;❶ User submits prompt in Streamlit UI&lt;br&gt;❷ UI POSTs JSON to FastAPI /supervisor/query&lt;br&gt;❸ ApiRoutes delegates to Supervisor.query()&lt;br&gt;❹ Supervisor loads state (per conversation_id)&lt;br&gt;❺ Jinja2 template renders prompt with history&lt;br&gt;❻ &lt;b&gt;asyncio.gather()&lt;/b&gt; fans out to all enabled agents&lt;br&gt;❼ Each agent calls its cloud LLM provider&lt;br&gt;❽ Responses fan-in; state is saved&lt;br&gt;❾ AggregationTool synthesizes via GPT&lt;br&gt;❿ SupervisorResponse returned → UI renders cards&lt;/font&gt;" style="text;html=1;fontSize=10;fillColor=none;strokeColor=none;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="330" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== LIFESPAN / CONFIG (small box, lower-left of backend) ========== -->
+        <mxCell id="config_box" value="&lt;b&gt;Config &amp; Startup&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot;&gt;config.py · model_config.py&lt;br&gt;LifespanManager · PortCleanup&lt;br&gt;BrowserOpener&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E8EAF6;strokeColor=#5C6BC0;fontColor=#333;" vertex="1" parent="1">
+          <mxGeometry x="625" y="385" width="190" height="65" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== DEBATE MODE ANNOTATION ========== -->
+        <mxCell id="debate_note" value="&lt;b&gt;Debate Mode&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#555&quot;&gt;Multiple rounds: each agent sees&lt;br&gt;other agents' prior responses.&lt;br&gt;Final round → AggregationTool.&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;fontSize=10;fillColor=#FFF3E0;strokeColor=#FF9800;fontColor=#333;" vertex="1" parent="1">
+          <mxGeometry x="30" y="460" width="195" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_debate_sup" style="rounded=1;strokeColor=#FF9800;strokeWidth=1;dashed=1;" edge="1" source="debate_note" target="supervisor" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

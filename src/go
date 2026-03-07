@@ -1,0 +1,13 @@
+#!/bin/bash
+# Launcher for Model Fusion Demo (Git Bash)
+# Usage: ./go         - starts both frontend and backend
+#        ./go front   - starts frontend only
+#        ./go back    - starts backend only
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+case "${1:-all}" in
+    front) bash "$SCRIPT_DIR/scripts/start-frontend.sh" ;;
+    back)  bash "$SCRIPT_DIR/scripts/start-backend.sh" ;;
+    *)     bash "$SCRIPT_DIR/scripts/start-app.sh" ;;
+esac
