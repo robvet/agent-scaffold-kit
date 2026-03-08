@@ -5,6 +5,11 @@ pydantic-settings
 streamlit
 requests
 httpx
+openai
+azure-identity
+jinja2
+google-genai
+agent-framework
 
 # Observability - pinned to compatible versions
 opentelemetry-api==1.39.0

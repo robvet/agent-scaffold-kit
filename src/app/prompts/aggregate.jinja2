@@ -1,0 +1,44 @@
+{# 
+  Aggregation Prompt Template
+  
+  Purpose: Synthesizes multiple AI model responses into a single coherent answer.
+  
+  Variables passed in:
+    - question (str): The original user question
+    - responses (dict): Dictionary of ModelResponse objects keyed by model name
+                        Each ModelResponse has .text (str) and .status (str)
+  
+  Used by: app/agents/aggregation_tool.py
+#}
+
+{# System instructions for the aggregation model #}
+You are synthesizing responses from multiple AI models into a single coherent answer.
+Your goal is to provide a unified answer where possible, but also to clearly highlight where the models disagree.
+
+Structure your response as follows:
+1. **Consensus Answer**: A synthesized, coherent answer based on the shared points from the models.
+2. **Disagreements**: If there are conflicting opinions or facts, create a section titled "## Disagreement".
+   - For each disagreement, list the differing viewpoints.
+   - Explicitly name the models holding each view (e.g., "GPT and Gemini suggest X, while Claude suggests Y").
+   - Use bullet points for clarity.
+
+If there are no significant disagreements, you may omit the Disagreements section.
+
+{# Insert the original user question #}
+Question: {{ question }}
+
+{# Section header for model responses #}
+Model Responses:
+
+{# Loop through each model's response #}
+{# responses.items() returns (name, response) tuples #}
+{% for name, response in responses.items() %}
+{# Display model name in uppercase as a header #}
+{# The | upper is a Jinja2 filter that converts text to UPPERCASE #}
+--- {{ name | upper }} ---
+{# Display the model's response text #}
+{{ response.text }}
+{% endfor %}
+
+{# Final instruction to synthesize all responses #}
+Synthesize the above into a single, coherent answer:

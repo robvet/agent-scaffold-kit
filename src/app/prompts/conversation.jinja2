@@ -1,0 +1,39 @@
+{# 
+  Conversation History Prompt Template
+  
+  Purpose: Formats conversation history into a prompt for multi-turn conversations.
+           Each model maintains its own conversation history, allowing it to 
+           remember previous exchanges within the same conversation_id.
+  
+  Variables passed in:
+    - history (list[dict]): List of message dictionaries, each containing:
+        - role (str): Either "user" or "assistant"
+        - content (str): The message text
+  
+  Used by: app/agents/supervisor_agent.py
+  
+  Example history:
+    [
+      {"role": "user", "content": "What's the capital of France?"},
+      {"role": "assistant", "content": "The capital of France is Paris."},
+      {"role": "user", "content": "What's its population?"}
+    ]
+  
+  Output format:
+    User: What's the capital of France?
+    Assistant: The capital of France is Paris.
+    User: What's its population?
+#}
+
+{# Loop through each message in the conversation history #}
+{% for message in history %}
+{# Check if this message is from the user #}
+{% if message.role == "user" %}
+{# Format user messages with "User:" prefix #}
+User: {{ message.content }}
+{% else %}
+{# Format assistant messages with "Assistant:" prefix #}
+{# This handles role == "assistant" #}
+Assistant: {{ message.content }}
+{% endif %}
+{% endfor %}
